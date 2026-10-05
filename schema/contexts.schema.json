@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ContextList",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "assumptions"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-zA-Z0-9_-]+$" },
+      "name": { "type": "string" },
+      "assumptions": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "requiredProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "topological-spaces",
+    "name": "General Topological Spaces",
+    "assumptions": [
+      "X is an arbitrary topological space (X, \\tau)"
+    ],
+    "requiredProperties": []
+  },
+  {
+    "id": "t1-spaces",
+    "name": "T1 Topological Spaces",
+    "assumptions": [
+      "Singletons {x} are closed in X (T1 axiom)"
+    ],
+    "requiredProperties": ["t1"]
+  },
+  {
+    "id": "hausdorff-spaces",
+    "name": "Hausdorff (T2) Spaces",
+    "assumptions": [
+      "Distinct points have disjoint neighborhoods (T2 axiom)"
+    ],
+    "requiredProperties": ["t2"]
+  },
+  {
+    "id": "metric-spaces",
+    "name": "Metrizable Spaces",
+    "assumptions": [
+      "The topology of X is induced by a metric d: X \\times X \\to [0, \\infty)"
+    ],
+    "requiredProperties": ["metrizable"]
+  }
+]

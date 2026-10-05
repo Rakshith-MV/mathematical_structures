@@ -1,0 +1,152 @@
+[
+  {
+    "id": "sierpinski-space",
+    "name": "Sierpiński space",
+    "description": "Two-point set {0, 1} where the open sets are empty, {1}, and {0, 1}. The point 0 is not closed, so it is T0 but not T1.",
+    "satisfies": [
+      "t0",
+      "compact",
+      "countably-compact",
+      "sequentially-compact",
+      "limit-point-compact",
+      "first-countable",
+      "second-countable",
+      "lindelof"
+    ],
+    "fails": [
+      "t1",
+      "t2",
+      "t3",
+      "t3-5",
+      "t4",
+      "regular",
+      "normal",
+      "metrizable"
+    ],
+    "source": "Steen & Seebach, Counterexamples in Topology, Item 14 (Sierpinski Space)",
+    "verified": false
+  },
+  {
+    "id": "cofinite-infinite",
+    "name": "Cofinite topology on an infinite set",
+    "description": "An infinite set X with open sets being empty and all subsets with finite complement. Every singleton is closed, but no two disjoint open non-empty sets exist, failing Hausdorff (T2).",
+    "satisfies": [
+      "t0",
+      "t1",
+      "compact",
+      "countably-compact",
+      "limit-point-compact",
+      "lindelof"
+    ],
+    "fails": [
+      "t2",
+      "regular",
+      "t3",
+      "t3-5",
+      "normal",
+      "t4",
+      "metrizable"
+    ],
+    "source": "Steen & Seebach, Counterexamples in Topology, Item 18 (Countable Fort Space / Cofinite Topology); Munkres §17 Ex. 3",
+    "verified": false
+  },
+  {
+    "id": "tychonoff-plank",
+    "name": "Tychonoff plank",
+    "description": "The subspace [0, omega_1] x [0, omega] \\ {(omega_1, omega)}. Completely regular (T3 1/2) as a subspace of a compact Hausdorff space, but fails normality (T4).",
+    "satisfies": [
+      "t0",
+      "t1",
+      "t2",
+      "regular",
+      "t3",
+      "t3-5",
+      "first-countable"
+    ],
+    "fails": [
+      "normal",
+      "t4",
+      "compact",
+      "second-countable",
+      "metrizable"
+    ],
+    "source": "Steen & Seebach, Counterexamples in Topology, Item 86 (Tychonoff Plank); Willard §17",
+    "verified": false
+  },
+  {
+    "id": "sorgenfrey-plane",
+    "name": "Sorgenfrey plane",
+    "description": "Product of two Sorgenfrey lines R_l x R_l. The Sorgenfrey line R_l is normal and Lindelöf, but its square R_l x R_l is completely regular and first countable while failing normality (the anti-diagonal contains an uncountable closed discrete subset).",
+    "satisfies": [
+      "t0",
+      "t1",
+      "t2",
+      "regular",
+      "t3",
+      "t3-5",
+      "first-countable"
+    ],
+    "fails": [
+      "normal",
+      "t4",
+      "lindelof",
+      "second-countable",
+      "metrizable"
+    ],
+    "source": "Steen & Seebach, Counterexamples in Topology, Item 84; Munkres §31 Ex. 3",
+    "verified": false
+  },
+  {
+    "id": "unit-interval-pow-r",
+    "name": "[0, 1]^R (Uncountable cube)",
+    "description": "Product of uncountably many copies of [0, 1]. Compact by Tychonoff's theorem, but not first countable and not sequentially compact (no subsequence of the sequence of coordinate projections converges).",
+    "satisfies": [
+      "t0",
+      "t1",
+      "t2",
+      "regular",
+      "t3",
+      "t3-5",
+      "normal",
+      "t4",
+      "compact",
+      "countably-compact",
+      "limit-point-compact"
+    ],
+    "fails": [
+      "first-countable",
+      "second-countable",
+      "sequentially-compact",
+      "metrizable"
+    ],
+    "source": "Steen & Seebach, Counterexamples in Topology, Item 105; Munkres §28 Theorem 28.2 / §38",
+    "verified": false
+  },
+  {
+    "id": "omega-1-order",
+    "name": "omega_1 (First uncountable ordinal)",
+    "description": "The set of countable ordinals [0, omega_1) with the order topology. It is sequentially compact and countably compact, but not compact (the open cover by intervals [0, alpha) has no finite subcover) and not Lindelöf.",
+    "satisfies": [
+      "t0",
+      "t1",
+      "t2",
+      "regular",
+      "t3",
+      "t3-5",
+      "normal",
+      "t4",
+      "first-countable",
+      "countably-compact",
+      "sequentially-compact",
+      "limit-point-compact"
+    ],
+    "fails": [
+      "compact",
+      "second-countable",
+      "lindelof",
+      "metrizable"
+    ],
+    "source": "Steen & Seebach, Counterexamples in Topology, Item 42; Munkres §28 Example 2",
+    "verified": false
+  }
+]

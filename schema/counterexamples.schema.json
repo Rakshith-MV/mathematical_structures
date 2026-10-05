@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CounterexampleList",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "description", "satisfies", "fails", "source", "verified"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-zA-Z0-9_-]+$" },
+      "name": { "type": "string" },
+      "description": { "type": "string" },
+      "satisfies": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "fails": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "source": { "type": "string" },
+      "verified": { "type": "boolean" }
+    },
+    "additionalProperties": false
+  }
+}

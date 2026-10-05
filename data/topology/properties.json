@@ -1,0 +1,302 @@
+[
+  {
+    "id": "t0",
+    "name": "Kolmogorov ($T_0$)",
+    "domain": "topology",
+    "definition": "For any two distinct points $x \\neq y \\in X$, there exists an open set containing one but not the other.",
+    "equivalentForms": [
+      "The topological indistinguishability equivalence relation is the equality relation.",
+      "The closure of distinct singletons are distinct: $\\overline{\\{x\\}} \\neq \\overline{\\{y\\}}$ for $x \\neq y$."
+    ],
+    "examples": [
+      "Any metric space",
+      "Sierpiński space",
+      "Real line with standard topology"
+    ],
+    "nonExamples": [
+      "An indiscrete space with more than one point"
+    ],
+    "notes": "Introduced by Kolmogorov in 1931. The weakest standard separation axiom."
+  },
+  {
+    "id": "t1",
+    "name": "Fréchet ($T_1$)",
+    "domain": "topology",
+    "definition": "For any two distinct points $x \\neq y \\in X$, there exists an open set containing $x$ but not $y$, and an open set containing $y$ but not $x$.",
+    "equivalentForms": [
+      "Every singleton subset $\\{x\\}$ is closed in $X$.",
+      "The intersection of all open neighborhoods of $x$ is $\\{x\\}$."
+    ],
+    "examples": [
+      "Cofinite topology on an infinite set",
+      "Any Hausdorff space"
+    ],
+    "nonExamples": [
+      "Sierpiński space (point 0 is not closed)"
+    ],
+    "notes": "Introduced by Fréchet in 1906."
+  },
+  {
+    "id": "t2",
+    "name": "Hausdorff ($T_2$)",
+    "domain": "topology",
+    "definition": "For any two distinct points $x \\neq y \\in X$, there exist disjoint open sets $U$ and $V$ with $x \\in U$ and $y \\in V$.",
+    "equivalentForms": [
+      "The diagonal $\\Delta = \\{(x, x) : x \\in X\\}$ is closed in $X \\times X$.",
+      "Every convergent net or filter in $X$ has a unique limit."
+    ],
+    "examples": [
+      "Any metric space",
+      "Discrete spaces",
+      "Manifolds"
+    ],
+    "nonExamples": [
+      "Cofinite topology on an infinite set",
+      "Zariski topology on an algebraic variety of dimension $\\ge 1$"
+    ],
+    "notes": "Introduced by Felix Hausdorff in 1914. Fundamental for analysis."
+  },
+  {
+    "id": "regular",
+    "name": "Regular",
+    "domain": "topology",
+    "definition": "For every closed set $C \\subseteq X$ and point $x \\notin C$, there exist disjoint open sets $U, V$ such that $x \\in U$ and $C \\subseteq V$.",
+    "equivalentForms": [
+      "For every point $x$ and open neighborhood $U$ of $x$, there exists an open neighborhood $V$ of $x$ such that $\\overline{V} \\subseteq U$."
+    ],
+    "examples": [
+      "Indiscrete spaces",
+      "Metric spaces",
+      "Topological groups that are $T_0$"
+    ],
+    "nonExamples": [
+      "K-topology on $\\mathbb{R}$"
+    ],
+    "notes": "Note: regularity does not require points to be closed. When combined with $T_1$, it yields $T_3$."
+  },
+  {
+    "id": "t3",
+    "name": "Vietoris ($T_3$)",
+    "domain": "topology",
+    "definition": "A topological space that is both Regular and $T_1$.",
+    "equivalentForms": [
+      "Regular and Hausdorff ($T_2$).",
+      "Singletons are closed and every closed set and disjoint point are separated by neighborhoods."
+    ],
+    "examples": [
+      "All metric spaces",
+      "All manifold spaces"
+    ],
+    "nonExamples": [
+      "Cofinite topology on an infinite set",
+      "Sierpiński space"
+    ],
+    "notes": "Sometimes called 'regular Hausdorff'."
+  },
+  {
+    "id": "t3-5",
+    "name": "Tychonoff ($T_{3\\frac{1}{2}}$)",
+    "domain": "topology",
+    "definition": "A $T_1$ space where every closed set $C$ and point $x \\notin C$ can be separated by a continuous function $f: X \\to [0, 1]$ with $f(x) = 0$ and $f(C) = \\{1\\}$.",
+    "equivalentForms": [
+      "Completely regular and $T_1$.",
+      "Homeomorphic to a subspace of a compact Hausdorff space (cube $[0, 1]^I$)."
+    ],
+    "examples": [
+      "Tychonoff plank",
+      "All metric spaces",
+      "All locally compact Hausdorff spaces"
+    ],
+    "nonExamples": [
+      "Thomas's plank (a $T_3$ space that is not completely regular)"
+    ],
+    "notes": "Named after Andrey Tychonoff. Essential for the theory of compactification."
+  },
+  {
+    "id": "normal",
+    "name": "Normal",
+    "domain": "topology",
+    "definition": "For any two disjoint closed sets $A, B \\subseteq X$, there exist disjoint open sets $U, V$ with $A \\subseteq U$ and $B \\subseteq V$.",
+    "equivalentForms": [
+      "For every closed set $A$ and open set $W \\supseteq A$, there exists open $U$ with $A \\subseteq U \\subseteq \\overline{U} \\subseteq W$."
+    ],
+    "examples": [
+      "Any metric space",
+      "Any compact Hausdorff space"
+    ],
+    "nonExamples": [
+      "Tychonoff plank",
+      "Sorgenfrey plane"
+    ],
+    "notes": "Does not require points to be closed. When paired with $T_1$, gives $T_4$."
+  },
+  {
+    "id": "t4",
+    "name": "Tietze ($T_4$)",
+    "domain": "topology",
+    "definition": "A topological space that is both Normal and $T_1$.",
+    "equivalentForms": [
+      "Normal and Hausdorff ($T_2$).",
+      "Satisfies Urysohn's Lemma and Tietze Extension Theorem for closed subsets."
+    ],
+    "examples": [
+      "Metric spaces",
+      "Compact Hausdorff spaces",
+      "Paracompact Hausdorff spaces"
+    ],
+    "nonExamples": [
+      "Tychonoff plank",
+      "Sorgenfrey plane"
+    ],
+    "notes": "Normal Hausdorff space. Guarantees existence of rich families of real-valued continuous functions."
+  },
+  {
+    "id": "compact",
+    "name": "Compact",
+    "domain": "topology",
+    "definition": "Every open cover of $X$ has a finite subcover.",
+    "equivalentForms": [
+      "Every family of closed sets with finite intersection property has non-empty intersection.",
+      "Every ultrafilter on $X$ converges to at least one point."
+    ],
+    "examples": [
+      "Closed and bounded subsets of $\\mathbb{R}^n$",
+      "The Cantor set",
+      "Hilbert cube $[0,1]^{\\mathbb{N}}$"
+    ],
+    "nonExamples": [
+      "Real line $\\mathbb{R}$ with Euclidean topology",
+      "First uncountable ordinal $\\omega_1$"
+    ],
+    "notes": "One of the most important concepts in modern mathematics. Discovered through generalizations of Heine-Borel."
+  },
+  {
+    "id": "countably-compact",
+    "name": "Countably Compact",
+    "domain": "topology",
+    "definition": "Every countable open cover of $X$ has a finite subcover.",
+    "equivalentForms": [
+      "Every sequence in $X$ has an accumulation point (cluster point).",
+      "Every infinite subset has an $\\omega$-accumulation point."
+    ],
+    "examples": [
+      "Any compact space",
+      "First uncountable ordinal $\\omega_1$"
+    ],
+    "nonExamples": [
+      "The integers $\\mathbb{Z}$ with discrete topology"
+    ],
+    "notes": "Weaker than compact; equivalent to compactness in Lindelöf spaces."
+  },
+  {
+    "id": "sequentially-compact",
+    "name": "Sequentially Compact",
+    "domain": "topology",
+    "definition": "Every sequence in $X$ contains a convergent subsequence.",
+    "equivalentForms": [
+      "Every countably infinite set contains a sequence with a convergent subsequence."
+    ],
+    "examples": [
+      "Compact metric spaces",
+      "First uncountable ordinal $\\omega_1$"
+    ],
+    "nonExamples": [
+      "Unit interval cube $[0, 1]^{\\mathbb{R}}$"
+    ],
+    "notes": "Historically the earliest form of compactness (Fréchet). Differs from compactness in non-first-countable spaces."
+  },
+  {
+    "id": "limit-point-compact",
+    "name": "Limit Point Compact",
+    "domain": "topology",
+    "definition": "Every infinite subset of $X$ has a limit point in $X$ (Bolzano-Weierstrass property).",
+    "equivalentForms": [
+      "Weakly countably compact.",
+      "Every countably infinite subset has an accumulation point."
+    ],
+    "examples": [
+      "Any countably compact space",
+      "Closed intervals $[a, b] \\subset \\mathbb{R}$"
+    ],
+    "nonExamples": [
+      "Discrete infinite space"
+    ],
+    "notes": "In $T_1$ spaces, this is equivalent to countable compactness (Munkres Theorem 28.1)."
+  },
+  {
+    "id": "lindelof",
+    "name": "Lindelöf",
+    "domain": "topology",
+    "definition": "Every open cover of $X$ has a countable subcover.",
+    "equivalentForms": [
+      "Every family of closed sets with countable intersection property has non-empty intersection."
+    ],
+    "examples": [
+      "Any compact space",
+      "Any second countable space",
+      "$\\mathbb{R}^n$ with Euclidean topology"
+    ],
+    "nonExamples": [
+      "First uncountable ordinal $\\omega_1$",
+      "Sorgenfrey plane"
+    ],
+    "notes": "Named after Ernst Leonard Lindelöf."
+  },
+  {
+    "id": "first-countable",
+    "name": "First Countable",
+    "domain": "topology",
+    "definition": "Every point $x \\in X$ has a countable local base of neighborhoods.",
+    "equivalentForms": [
+      "For each $x$, there exist open sets $U_1, U_2, \\dots$ such that any neighborhood of $x$ contains some $U_n$."
+    ],
+    "examples": [
+      "All metric spaces",
+      "Sorgenfrey line"
+    ],
+    "nonExamples": [
+      "Uncountable product $[0,1]^{\\mathbb{R}}$",
+      "Arens-Fort space"
+    ],
+    "notes": "Allows sequences to fully characterize closure, continuity, and limit points."
+  },
+  {
+    "id": "second-countable",
+    "name": "Second Countable",
+    "domain": "topology",
+    "definition": "The topology of $X$ has a countable base of open sets.",
+    "equivalentForms": [
+      "There exists a countable collection $\\mathcal{B}$ of open sets such that every open set is a union of members of $\\mathcal{B}$."
+    ],
+    "examples": [
+      "$\\mathbb{R}^n$ with Euclidean topology (open balls with rational centers and radii)",
+      "Separable metric spaces"
+    ],
+    "nonExamples": [
+      "Uncountable discrete space",
+      "Sorgenfrey line"
+    ],
+    "notes": "Implies both first countability and the Lindelöf property."
+  },
+  {
+    "id": "metrizable",
+    "name": "Metrizable",
+    "domain": "topology",
+    "definition": "There exists a metric $d$ on $X$ that induces the given topology.",
+    "equivalentForms": [
+      "Regular Hausdorff space with a $\\sigma$-locally finite base (Nagata-Smirnov Metrization Theorem).",
+      "$T_3$ and second countable (Urysohn Metrization Theorem)."
+    ],
+    "examples": [
+      "Euclidean spaces $\\mathbb{R}^n$",
+      "Hilbert space $\\ell^2$",
+      "Discrete spaces"
+    ],
+    "nonExamples": [
+      "Cofinite topology on an infinite set",
+      "Sorgenfrey plane",
+      "Tychonoff plank"
+    ],
+    "notes": "Metrizability theorems (Urysohn, Nagata-Smirnov, Bing) are central achievements of point-set topology."
+  }
+]
