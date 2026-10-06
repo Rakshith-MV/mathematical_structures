@@ -52,7 +52,9 @@ data/
 ```
 
 ### 1. `Context` (`contexts.json`)
+
 The standing mathematical hypotheses under which theorems hold.
+
 ```typescript
 type Context = {
   id: string;                  // e.g. "metric-spaces"
@@ -63,7 +65,9 @@ type Context = {
 ```
 
 ### 2. `Property` (`properties.json`)
+
 A definition or property (represented as a node in the graph).
+
 ```typescript
 type Property = {
   id: string;                  // e.g. "compact"
@@ -78,7 +82,9 @@ type Property = {
 ```
 
 ### 3. `Statement` (`statements.json`)
+
 A theorem connecting properties (represented as typed edges).
+
 ```typescript
 type Statement = {
   id: string;                  // e.g. "stmt-compact-implies-countably-compact"
@@ -97,7 +103,9 @@ type Statement = {
 ```
 
 ### 4. `Counterexample` (`counterexamples.json`)
+
 A mathematical object refuting an implication.
+
 ```typescript
 type Counterexample = {
   id: string;                  // e.g. "sierpinski-space"
@@ -130,10 +138,12 @@ The validator (`scripts/validate.ts` & `src/lib/validator.ts`) enforces strict m
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js $\ge 18$ (LTS recommended)
 - npm $\ge 9$
 
 ### Installation
+
 ```bash
 # Clone the repository
 git clone https://github.com/your-username/theorem-graph.git
@@ -144,6 +154,7 @@ npm install
 ```
 
 ### Running the App
+
 ```bash
 # Start local development server
 npm run dev
@@ -168,46 +179,49 @@ npm run build
 Adding a new mathematical domain (e.g. `ring-theory`, `group-theory`, `functional-analysis`) requires **editing only files in `data/<domain>/` with zero code changes**:
 
 1. **Create the domain directory:**
+
    ```bash
    mkdir data/ring-theory
    ```
-
 2. **Add the 4 JSON files:**
+
    - `data/ring-theory/contexts.json` (e.g. Commutative rings, Integral domains, Fields)
    - `data/ring-theory/properties.json` (e.g. Noetherian, Artinian, UFD, PID, Euclidean domain)
    - `data/ring-theory/statements.json` (e.g. PID $\implies$ UFD, Euclidean $\implies$ PID)
    - `data/ring-theory/counterexamples.json` (e.g. $\mathbb{Z}[x]$: UFD that is not a PID)
-
 3. **Rules for authoring:**
+
    - Mark every statement and counterexample with `verified: false` and provide a textbook or paper citation in `source`.
    - Store only the **transitive reduction** (do not explicitly add $A \implies C$ if $A \implies B \implies C$ already holds).
    - Ensure every `not-implies` edge specifies a valid `witness`.
-
 4. **Validate:**
+
    ```bash
    npm run validate
    ```
+
    The validator will automatically discover the new domain, verify all references and graph logic, and the UI will automatically include it in the domain selector dropdown!
 
 ---
 
 ## ⌨️ Keyboard Shortcuts
 
-| Shortcut | Action |
-| :--- | :--- |
-| `1` | Switch to **Graph Viewer** mode |
-| `2` | Switch to **Fog of War (Explore)** mode |
-| `3` | Switch to **Predict the Arrow (Quiz)** mode |
-| `4` | Switch to **Missing-Edge Puzzle** mode |
-| `5` | Switch to **Spaced Repetition Review** mode |
-| `6` | Switch to **Progress Overview** mode |
-| `Esc` | Close side panel / dismiss modal |
+| Shortcut | Action                                           |
+| :------- | :----------------------------------------------- |
+| `1`    | Switch to**Graph Viewer** mode             |
+| `2`    | Switch to**Fog of War (Explore)** mode     |
+| `3`    | Switch to**Predict the Arrow (Quiz)** mode |
+| `4`    | Switch to**Missing-Edge Puzzle** mode      |
+| `5`    | Switch to**Spaced Repetition Review** mode |
+| `6`    | Switch to**Progress Overview** mode        |
+| `Esc`  | Close side panel / dismiss modal                 |
 
 ---
 
 ## 📜 Citations & Prior Art
 
 Seed topology definitions, theorems, and counterexamples are compiled from:
+
 - Lynn Arthur Steen & J. Arthur Seebach, Jr., *Counterexamples in Topology*, Dover Publications, 1978.
 - James R. Munkres, *Topology* (2nd Edition), Prentice Hall, 2000.
 - Stephen Willard, *General Topology*, Addison-Wesley, 1970.
@@ -216,4 +230,5 @@ Seed topology definitions, theorems, and counterexamples are compiled from:
 ---
 
 ## 📄 License
+
 MIT License. Content definitions and theorems cite their respective historical and mathematical sources.
