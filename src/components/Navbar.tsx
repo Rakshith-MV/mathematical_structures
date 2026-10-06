@@ -14,6 +14,7 @@ import {
   EyeOff,
   Download,
   Upload,
+  PencilLine,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -67,6 +68,7 @@ export const Navbar: React.FC = () => {
     { id: 'puzzle', label: 'Missing Edge', icon: <Puzzle className="w-4 h-4" /> },
     { id: 'review', label: 'Review Queue', icon: <Calendar className="w-4 h-4" /> },
     { id: 'progress', label: 'Progress', icon: <BarChart3 className="w-4 h-4" /> },
+    { id: 'editor', label: 'Editor', icon: <PencilLine className="w-4 h-4" /> },
   ];
 
   return (

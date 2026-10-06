@@ -9,9 +9,14 @@ import { QuizView } from './components/QuizView';
 import { MissingEdgeView } from './components/MissingEdgeView';
 import { ReviewQueueView } from './components/ReviewQueueView';
 import { ProgressView } from './components/ProgressView';
+import { EditorView, resumeEditorAfterReload } from './components/EditorView';
 
 export const App: React.FC = () => {
   const { activeMode, closeSidePanel, setActiveMode } = useStore();
+
+  React.useEffect(() => {
+    resumeEditorAfterReload();
+  }, []);
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -23,13 +28,14 @@ export const App: React.FC = () => {
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
         return;
       }
-      // Shortcuts 1-6 for quick mode switching
+      // Shortcuts 1-7 for quick mode switching
       if (e.key === '1') setActiveMode('graph');
       if (e.key === '2') setActiveMode('explore');
       if (e.key === '3') setActiveMode('quiz');
       if (e.key === '4') setActiveMode('puzzle');
       if (e.key === '5') setActiveMode('review');
       if (e.key === '6') setActiveMode('progress');
+      if (e.key === '7') setActiveMode('editor');
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -83,6 +89,12 @@ export const App: React.FC = () => {
         {activeMode === 'progress' && (
           <div className="flex-1 overflow-y-auto">
             <ProgressView />
+          </div>
+        )}
+
+        {activeMode === 'editor' && (
+          <div className="flex-1 overflow-y-auto">
+            <EditorView />
           </div>
         )}
       </main>

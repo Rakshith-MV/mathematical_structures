@@ -2,6 +2,17 @@ import { create } from 'zustand';
 import { DomainData, Property, Statement, Counterexample } from '../types';
 import { loadDomainFromModules, getAvailableDomains } from '../lib/dataLoader';
 import {
+  CustomDataStore,
+  EntityKind,
+  loadCustomData,
+  saveCustomData,
+  applyOverlay,
+  emptyOverlay,
+  upsertEntity,
+  removeEntity,
+  revertEntity,
+} from '../lib/customData';
+import {
   findAllPaths,
   DeductionPath,
 } from '../lib/graphEngine';
@@ -14,7 +25,9 @@ import {
   Flashcard,
 } from '../lib/studyEngine';
 
-export type AppMode = 'graph' | 'explore' | 'quiz' | 'puzzle' | 'review' | 'progress';
+export type AppMode = 'graph' | 'explore' | 'quiz' | 'puzzle' | 'review' | 'progress' | 'editor';
+
+export type EditorTarget = { kind: EntityKind; id: string | null };
 
 interface StoreState {
   availableDomains: string[];
@@ -43,6 +56,10 @@ interface StoreState {
   // Study & persistence
   studyState: UserStudyState;
 
+  // User-authored data (in-app Editor)
+  customData: CustomDataStore;
+  editorTarget: EditorTarget | null;
+
   // Actions
   setDomain: (domain: string) => void;
   setActiveContext: (contextId: string) => void;
@@ -70,11 +87,43 @@ interface StoreState {
   rateCard: (cardId: string, rating: number) => void;
   importStudyJSON: (jsonStr: string) => void;
   resetProgressForDomain: (domain: string) => void;
+
+  // Editor actions
+  openEditor: (target: EditorTarget | null) => void;
+  saveEntity: (kind: EntityKind, entity: { id: string }) => void;
+  deleteEntity: (kind: EntityKind, id: string) => void;
+  revertEntity: (kind: EntityKind, id: string) => void;
+  createDomain: (domain: string) => void;
+  discardDomainChanges: (domain: string) => void;
 }
 
-const initialDomains = getAvailableDomains();
+function builtInDomainData(domain: string): DomainData {
+  return loadDomainFromModules(domain);
+}
+
+function resolveDomainData(domain: string, custom: CustomDataStore): DomainData {
+  return applyOverlay(builtInDomainData(domain), custom.domains[domain]);
+}
+
+function listDomains(custom: CustomDataStore): string[] {
+  const builtIn = getAvailableDomains();
+  return [...builtIn, ...Object.keys(custom.domains).filter(d => !builtIn.includes(d))];
+}
+
+/** Add flashcards for statements that do not have one yet (e.g. newly authored theorems). */
+function syncCards(study: UserStudyState, data: DomainData): UserStudyState {
+  const missing = generateInitialCardsForDomain(data).filter(c => !study.cards[c.id]);
+  if (missing.length === 0) return study;
+  const next = { ...study, cards: { ...study.cards } };
+  for (const c of missing) next.cards[c.id] = c;
+  saveStudyState(next);
+  return next;
+}
+
+const initialCustomData = loadCustomData();
+const initialDomains = listDomains(initialCustomData);
 const defaultDomain = initialDomains.includes('topology') ? 'topology' : initialDomains[0] || 'topology';
-const initialData = loadDomainFromModules(defaultDomain);
+const initialData = resolveDomainData(defaultDomain, initialCustomData);
 const initialStudyState = loadStudyState();
 
 // Initialize flashcards for domain if empty
@@ -109,8 +158,11 @@ export const useStore = create<StoreState>((set, get) => ({
 
   studyState: initialStudyState,
 
+  customData: initialCustomData,
+  editorTarget: null,
+
   setDomain: (domain: string) => {
-    const data = loadDomainFromModules(domain);
+    const data = resolveDomainData(domain, get().customData);
     const defaultCtx = data.contexts[0]?.id || 'topological-spaces';
 
     // Populate flashcards for domain if needed
@@ -399,4 +451,73 @@ export const useStore = create<StoreState>((set, get) => ({
     saveStudyState(nextState);
     set({ studyState: nextState });
   },
+
+  openEditor: (target: EditorTarget | null) => {
+    set({ activeMode: 'editor', editorTarget: target });
+  },
+
+  saveEntity: (kind: EntityKind, entity: { id: string }) => {
+    const { customData, currentDomain } = get();
+    const overlay = customData.domains[currentDomain] ?? emptyOverlay();
+    commitOverlay(currentDomain, upsertEntity(overlay, kind, entity));
+  },
+
+  deleteEntity: (kind: EntityKind, id: string) => {
+    const { customData, currentDomain } = get();
+    const overlay = customData.domains[currentDomain] ?? emptyOverlay();
+    const isBuiltIn = (builtInDomainData(currentDomain)[kind] as { id: string }[]).some(e => e.id === id);
+    commitOverlay(currentDomain, removeEntity(overlay, kind, id, isBuiltIn));
+  },
+
+  revertEntity: (kind: EntityKind, id: string) => {
+    const { customData, currentDomain } = get();
+    const overlay = customData.domains[currentDomain];
+    if (!overlay) return;
+    commitOverlay(currentDomain, revertEntity(overlay, kind, id));
+  },
+
+  createDomain: (domain: string) => {
+    const { customData } = get();
+    if (!customData.domains[domain] && !get().availableDomains.includes(domain)) {
+      const next: CustomDataStore = { ...customData, domains: { ...customData.domains, [domain]: emptyOverlay() } };
+      saveCustomData(next);
+      set({ customData: next, availableDomains: listDomains(next) });
+    }
+    get().setDomain(domain);
+  },
+
+  discardDomainChanges: (domain: string) => {
+    const { customData, currentDomain } = get();
+    const domains = { ...customData.domains };
+    delete domains[domain];
+    const next: CustomDataStore = { ...customData, domains };
+    saveCustomData(next);
+    const available = listDomains(next);
+    set({ customData: next, availableDomains: available });
+    if (domain === currentDomain) {
+      get().setDomain(available.includes(domain) ? domain : available[0] || 'topology');
+    }
+  },
 }));
+
+/** Persist a domain overlay and refresh every derived piece of state. */
+function commitOverlay(domain: string, overlay: ReturnType<typeof emptyOverlay>) {
+  const { customData, studyState, activeContextId, selectedProperty, selectedStatement, selectedCounterexample } =
+    useStore.getState();
+  const next: CustomDataStore = { ...customData, domains: { ...customData.domains, [domain]: overlay } };
+  saveCustomData(next);
+  const data = resolveDomainData(domain, next);
+  const find = <T extends { id: string }>(list: T[], cur: T | null) => (cur ? list.find(e => e.id === cur.id) ?? null : null);
+  useStore.setState({
+    customData: next,
+    availableDomains: listDomains(next),
+    domainData: data,
+    activeContextId: data.contexts.some(c => c.id === activeContextId)
+      ? activeContextId
+      : data.contexts[0]?.id || 'topological-spaces',
+    studyState: syncCards(studyState, data),
+    selectedProperty: find(data.properties, selectedProperty),
+    selectedStatement: find(data.statements, selectedStatement),
+    selectedCounterexample: find(data.counterexamples, selectedCounterexample),
+  });
+}

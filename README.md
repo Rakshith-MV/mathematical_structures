@@ -174,9 +174,26 @@ npm run build
 
 ---
 
+## ✏️ Adding Content from the UI (Editor mode)
+
+You don't have to hand-edit JSON. Open the **Editor** tab (shortcut `7`) to add, edit or delete:
+
+- **Definitions** (properties) — name, definition, equivalent forms, examples, non-examples, notes
+- **Theorems** (statements) — `implies` / `equivalent` / `not-implies`, hypotheses and conclusions, context, witness counterexample, proof sketch, key lemma, source, Lean name
+- **Counterexamples** — description plus the properties it satisfies and fails
+- **Contexts** — standing assumptions and required properties
+
+All text fields accept LaTeX (`$...$`, `$$...$$`) with a live KaTeX preview. Every draft is run through the same validator as `npm run validate` before saving: new errors (unknown references, cycles, contradictory witnesses, …) block the save, warnings are shown inline. IDs are derived from the name automatically. You can also jump straight to the form for any node, edge or counterexample via the ✏️ button in the graph's side panel, and create a brand-new domain with **New domain**.
+
+Where edits go:
+
+1. **This browser (default).** Saved entries are stored in `localStorage` as an overlay on top of `data/<domain>/`. They show up immediately in the graph and in every study mode (new theorems get flashcards). Built-in entries you change are tagged *edited* and can be reverted; deleted built-ins can be restored.
+2. **`data/<domain>/*.json` (dev server).** While running `npm run dev`, **Write to data/** writes the merged domain back to the JSON files so you can review the diff, run `npm run validate` and commit it.
+3. **Export JSON** downloads the four files for the current domain, for use with `npm run preview` or a deployed build.
+
 ## ➕ How to Add a New Domain
 
-Adding a new mathematical domain (e.g. `ring-theory`, `group-theory`, `functional-analysis`) requires **editing only files in `data/<domain>/` with zero code changes**:
+Adding a new mathematical domain (e.g. `ring-theory`, `group-theory`, `functional-analysis`) requires **editing only files in `data/<domain>/` with zero code changes**. The quickest route is **Editor → New domain**, then **Write to data/**; to do it by hand:
 
 1. **Create the domain directory:**
 
@@ -214,6 +231,7 @@ Adding a new mathematical domain (e.g. `ring-theory`, `group-theory`, `functiona
 | `4`    | Switch to**Missing-Edge Puzzle** mode      |
 | `5`    | Switch to**Spaced Repetition Review** mode |
 | `6`    | Switch to**Progress Overview** mode        |
+| `7`    | Switch to**Editor** mode                   |
 | `Esc`  | Close side panel / dismiss modal                 |
 
 ---

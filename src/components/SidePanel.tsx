@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStore } from '../store/useStore';
 import { MathView } from './MathView';
-import { X, ArrowRight, CheckCircle2, AlertCircle, BookOpen, ExternalLink, Lightbulb, ShieldAlert } from 'lucide-react';
+import { X, Pencil, ArrowRight, CheckCircle2, AlertCircle, BookOpen, ExternalLink, Lightbulb, ShieldAlert } from 'lucide-react';
 
 export const SidePanel: React.FC = () => {
   const {
@@ -13,6 +13,7 @@ export const SidePanel: React.FC = () => {
     selectProperty,
     selectStatement,
     selectCounterexample,
+    openEditor,
   } = useStore();
 
   if (!selectedProperty && !selectedStatement && !selectedCounterexample) {
@@ -63,14 +64,32 @@ export const SidePanel: React.FC = () => {
             </span>
           )}
         </div>
-        <button
-          onClick={closeSidePanel}
-          className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-slate-500 transition-colors"
-          title="Close details"
-          aria-label="Close details"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        <div className="flex items-center space-x-1">
+          <button
+            onClick={() =>
+              openEditor(
+                selectedProperty
+                  ? { kind: 'properties', id: selectedProperty.id }
+                  : selectedStatement
+                  ? { kind: 'statements', id: selectedStatement.id }
+                  : { kind: 'counterexamples', id: selectedCounterexample!.id }
+              )
+            }
+            className="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-slate-500 transition-colors"
+            title="Edit in Editor"
+            aria-label="Edit in Editor"
+          >
+            <Pencil className="w-4 h-4" />
+          </button>
+          <button
+            onClick={closeSidePanel}
+            className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-slate-500 transition-colors"
+            title="Close details"
+            aria-label="Close details"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       {/* Content Area */}

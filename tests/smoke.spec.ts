@@ -39,4 +39,30 @@ test.describe('Theorem Graph Smoke Tests', () => {
     // Controls remain accessible
     await expect(page.getByRole('combobox').first()).toBeVisible();
   });
+
+  test('adds a definition and a theorem from the Editor', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/');
+
+    await page.getByRole('button', { name: 'Editor' }).click();
+    await expect(page.getByText('Content Editor')).toBeVisible();
+
+    await page.getByLabel('Name *').fill('Totally bounded');
+    await page.getByLabel('Definition *').fill('For every $\\varepsilon > 0$, $X$ is covered by finitely many $\\varepsilon$-balls.');
+    await page.getByRole('button', { name: 'Add Definition' }).click();
+    await expect(page.getByRole('status')).toContainText('totally-bounded');
+
+    await page.getByRole('tab', { name: /Theorems/ }).click();
+    await page.getByRole('group', { name: /Hypotheses/ }).locator('select').selectOption('compact');
+    await page.getByRole('group', { name: /Conclusions/ }).locator('select').selectOption('totally-bounded');
+    await page.getByLabel('Context *').selectOption('metric-spaces');
+    await page.getByLabel('Source *').fill('Munkres, Topology §45');
+    await page.getByRole('button', { name: 'Add Theorem' }).click();
+    await expect(page.getByRole('status')).toContainText('stmt-compact-implies-totally-bounded');
+
+    // Entries survive a reload (stored in localStorage)
+    await page.reload();
+    await page.getByRole('button', { name: 'Editor' }).click();
+    await expect(page.getByRole('button', { name: /Totally bounded/ })).toBeVisible();
+  });
 });
